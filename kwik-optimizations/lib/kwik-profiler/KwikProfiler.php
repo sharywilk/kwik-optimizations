@@ -12,7 +12,6 @@ class KwikProfiler implements ProfilerBase {
 	}
 
 	/**
-	 *
 	 * @return KwikProfiler
 	 */
 	public static function getInstance() {
