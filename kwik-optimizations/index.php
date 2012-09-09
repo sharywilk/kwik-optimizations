@@ -17,4 +17,5 @@ spl_autoload_register('kwikautoloader');
  */
 
 $testRunner = new TestRunner();
+$testRunner->setOutputFormatter(new OutputFormatterConsole());
 $testRunner->runInIterations(4);

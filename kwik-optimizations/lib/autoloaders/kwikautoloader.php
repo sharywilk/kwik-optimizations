@@ -19,5 +19,13 @@ function kwikautoloader($class) {
 		return true;
 	}
 
+	if(strpos($class,'Formatter') !== false) {
+		$filename = APPLICATION_ROOT . '/lib/formatters/' . $class . '.php';
+		if (file_exists($filename)) {
+			include_once $filename;
+			return true;
+		}
+	}
+
 	throw new Exception('Source file for class ' . $class . ' not found');
 }

@@ -1,24 +1,30 @@
 <?php
 
 class TestRunner {
-	public function setOutputFormatter() {
-		/**
-		 * @todo implement
-		 */
+	/**
+	 * @var OutputFormatter
+	 */
+	protected $outputFormatter;
+
+	public function setOutputFormatter(OutputFormatter $outputFormatter) {
+		$this->outputFormatter = $outputFormatter;
+	}
+
+	public function getOutputFormatter() {
+		return $this->outputFormatter;
 	}
 
 	/**
 	 * @param $maxIterations
-	 * @todo use outputFormatter instead of printing
 	 */
 	public function runInIterations($maxIterations) {
-		echo '<pre>';
+		$this->outputFormatter->output('<pre>');
 
 		for ($iteration = 1; $iteration <= $maxIterations; $iteration++) {
 			KwikProfiler::getInstance()->reset();
-			echo '<hr>';
+			$this->outputFormatter->output('<hr>');
 
-			echo $this->getMemoryUsage();
+			$this->outputFormatter->output($this->getMemoryUsage());
 			$starttime = microtime(true);
 
 			$test = new TestClass();
@@ -27,14 +33,13 @@ class TestRunner {
 				$test->testLoop1000();
 			}
 
-			echo "\ncurtime: ", (microtime(true) - $starttime), "s\n";
-			echo "\nProfiling Stack:\n";
+			$this->outputFormatter->output("\ncurtime: ", (microtime(true) - $starttime), "s\n");
+			$this->outputFormatter->output("\nProfiling Stack:\n");
 			$stack = KwikProfiler::getInstance()->getProfilingStack();
-			print_r($stack);
-			echo "\ncurtime: ", (microtime(true) - $starttime), "s\n";
-			echo "\nproject done\n";
-
-			echo $this->getMemoryUsage();
+			$this->outputFormatter->output(print_r($stack,true));
+			$this->outputFormatter->output("\ncurtime: ", (microtime(true) - $starttime), "s\n");
+			$this->outputFormatter->output("\nproject done\n");
+			$this->outputFormatter->output($this->getMemoryUsage());
 		}
 	}
 
